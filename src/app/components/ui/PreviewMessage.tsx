@@ -34,7 +34,7 @@ const PreviewMessage = ({
       onClick={() =>
         setSelectPreviewMessage({ name, phone, lastMessage, time })
       }
-      className={`h-20 w-full pr-2 hover:bg-zinc-800 transition-colors p-2 rounded flex gap-2 ${
+      className={`max-h-24 w-full pr-2 hover:bg-zinc-800 transition-colors p-2 rounded flex gap-2 ${
         selectPreviewMessage.name == name && "bg-zinc-800"
       } `}>
       <Avatar>

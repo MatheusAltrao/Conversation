@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Search, SendHorizontal, X } from "lucide-react";
+import { MessagesSquare, Search, SendHorizontal, X } from "lucide-react";
 import { useState } from "react";
 import Message from "./components/Message";
 import PreviewMessage from "./components/ui/PreviewMessage";
@@ -154,6 +154,8 @@ export default function Home() {
   const [sentMessages, setSentMessages] = useState<
     { text: string; time: string }[]
   >([]);
+
+  const [searchValue, setSearchValue] = useState("");
   const [messageValue, setMessageValue] = useState("");
 
   const handleSendMessage = () => {
@@ -167,27 +169,61 @@ export default function Home() {
     setMessageValue("");
   };
 
+  const filtredListByName = friendList.filter((friend) =>
+    friend.name.toLowerCase().includes(searchValue)
+  );
+
   return (
-    <main className="h-screen w-full p-4 bg-zinc-950 text-zinc-200 flex items-center justify-center">
-      <div className="w-full max-w-[1000px] bg-zinc-900 rounded-lg border border-zinc-600 h-[800px] p-8">
-        <header>
+    <main className="h-screen w-full p-4 bg-[#111111] text-zinc-200 flex items-center justify-center">
+      <div className="w-full max-w-[1000px] bg-zinc-950 rounded-lg border border-zinc-800 h-[800px] p-8">
+        <header className="flex items-center gap-4">
           <h1 className="text-lg font-medium">Conversations</h1>
+          <MessagesSquare size={22} />
         </header>
 
         <div className="grid grid-cols-[300px_1fr] gap-4 mt-4">
-          <div className="flex flex-col overflow-y-scroll h-[700px] scrollbar gap-1 pr-2">
-            {friendList.map((item) => (
-              <PreviewMessage
-                key={item.id}
-                selectPreviewMessage={selectPreviewMessage}
-                setSelectPreviewMessage={setSelectPreviewMessage}
-                avatar={item.avatar}
-                phone={item.phone}
-                name={item.name}
-                time={item.time}
-                lastMessage={item.lastMessage}
+          <div>
+            <div className="relative">
+              <Search className="absolute top-3 left-2" size={20} />
+              <input
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+                className="bg-zinc-800 rounded h-10  text-base font-normal w-[290px] pl-8 pr-7"
+                type="text"
+                placeholder="Search by names"
               />
-            ))}
+
+              <button
+                onClick={() => setSearchValue("")}
+                className={`absolute top-3 right-4 transition-opacity ${
+                  searchValue.length > 0
+                    ? "opacity-100"
+                    : "opacity-0 pointer-events-none"
+                }`}>
+                <X size={15} />
+              </button>
+            </div>
+
+            <div className="flex flex-col overflow-y-scroll h-[630px] mt-4 scrollbar gap-1 pr-2">
+              {filtredListByName.length == 0 ? (
+                <p className="text-zinc-600 text-center">
+                  There is no contact with that name
+                </p>
+              ) : (
+                filtredListByName.map((item) => (
+                  <PreviewMessage
+                    key={item.id}
+                    selectPreviewMessage={selectPreviewMessage}
+                    setSelectPreviewMessage={setSelectPreviewMessage}
+                    avatar={item.avatar}
+                    phone={item.phone}
+                    name={item.name}
+                    time={item.time}
+                    lastMessage={item.lastMessage}
+                  />
+                ))
+              )}
+            </div>
           </div>
 
           <div>
@@ -220,15 +256,15 @@ export default function Home() {
             )}
 
             <div
-              className={`w-full  bg-zinc-800 ${
-                selectPreviewMessage.name == "" ? "h-[700px]" : "h-[630px]"
-              }  pt-4 pl-4 pr-2 gap-4 grid-rows-[490px_1fr] rounded grid`}>
+              className={`w-full  bg-zinc-900 ${
+                selectPreviewMessage.name == "" ? "h-[700px]" : "h-[620px]"
+              }  p-4 gap-4 grid-rows-[480px_1fr] rounded grid`}>
               {selectPreviewMessage.name !== "" ? (
                 <>
                   {" "}
                   <div className="flex-1 flex flex-col  ">
                     <div className="flex items-center justify-center mb-5  ">
-                      <p className="px-2 py-1 rounded text-center  bg-zinc-900">
+                      <p className="px-2 py-1 rounded text-center  bg-zinc-950">
                         Today
                       </p>
                     </div>
@@ -257,7 +293,7 @@ export default function Home() {
                       </div>
                     </div>
                   </div>
-                  <div className="bg-zinc-900 rounded h-[5.625rem] py-2 flex gap-2 pr-2">
+                  <div className="bg-zinc-950 rounded h-[5.625rem] py-2 flex gap-2 pr-2">
                     <Textarea
                       value={messageValue}
                       onChange={(e) => setMessageValue(e.target.value)}

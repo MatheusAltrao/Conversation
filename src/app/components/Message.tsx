@@ -10,7 +10,7 @@ const Message = ({ text, time }: MessageProps) => {
 
   return (
     <div className="flex items-center justify-end h-full ">
-      <div className="p-2 rounded bg-zinc-900 min-w-[200px] max-w-[290px]  ">
+      <div className="p-2 rounded bg-zinc-950 min-w-[200px] max-w-[290px]  ">
         <p className=" text-zinc-200 break-words  ">{text}</p>
 
         <p className="text-xs font-light text-zinc-400 text-right">
