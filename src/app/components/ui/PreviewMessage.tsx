@@ -18,6 +18,7 @@ interface PreviewMessageProps {
   phone: string;
   time: string;
   lastMessage: string;
+  setSentMessages: (v: { text: string; time: string }[]) => void;
 }
 
 const PreviewMessage = ({
@@ -28,12 +29,16 @@ const PreviewMessage = ({
   phone,
   time,
   lastMessage,
+  setSentMessages,
 }: PreviewMessageProps) => {
+  const handleSelectContact = () => {
+    setSelectPreviewMessage({ name, phone, lastMessage, time });
+    setSentMessages([]);
+  };
+
   return (
     <button
-      onClick={() =>
-        setSelectPreviewMessage({ name, phone, lastMessage, time })
-      }
+      onClick={handleSelectContact}
       className={`max-h-24 w-full pr-2 hover:bg-zinc-800 transition-colors p-2 rounded flex gap-2 ${
         selectPreviewMessage.name == name && "bg-zinc-800"
       } `}>

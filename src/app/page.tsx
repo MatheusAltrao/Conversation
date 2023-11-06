@@ -220,6 +220,7 @@ export default function Home() {
                     name={item.name}
                     time={item.time}
                     lastMessage={item.lastMessage}
+                    setSentMessages={setSentMessages}
                   />
                 ))
               )}
